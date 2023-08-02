@@ -110,12 +110,11 @@ void MyLogger(android::base::LogId id, android::base::LogSeverity severity, cons
 }
 
 static android::sp<android::os::IVold> GetVold() {
+    auto sm = android::defaultServiceManager();
     while (true) {
-        if (auto sm = android::defaultServiceManager()) {
-            if (auto binder = sm->getService(android::String16("vold"))) {
-                if (auto vold = android::interface_cast<android::os::IVold>(binder)) {
-                    return vold;
-                }
+        if (auto binder = sm->checkService(android::String16("vold"))) {
+            if (auto vold = android::interface_cast<android::os::IVold>(binder)) {
+                return vold;
             }
         }
         std::this_thread::sleep_for(2s);
