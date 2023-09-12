@@ -1362,7 +1362,7 @@ bool fs_mgr_overlayfs_setup(const char* backing, const char* mount_point, bool* 
         if (overlay_mount_point == kScratchMountPoint) {
             if (!fs_mgr_overlayfs_setup_scratch(fstab, change)) continue;
         } else {
-            if (GetEntryForMountPoint(&fstab, overlay_mount_point) == nullptr) {
+            if (!fs_mgr_overlayfs_already_mounted(overlay_mount_point, false /* overlay */)) {
                 continue;
             }
         }
