@@ -740,6 +740,7 @@ static int prepare_fs_for_mount(const std::string& blk_device, const FstabEntry&
 
     if (entry.fs_mgr_flags.check ||
         (fs_stat & (FS_STAT_UNCLEAN_SHUTDOWN | FS_STAT_QUOTA_ENABLED))) {
+        LINFO << " [DEBUG] calling check_fs via prepare_fs_for_mount";
         check_fs(blk_device, entry.fs_type, mount_point, &fs_stat);
     }
 
@@ -925,6 +926,7 @@ static bool mount_with_alternatives(const Fstab& fstab, int start_idx, int* end_
                     mount_errno = errno;
                 }
                 // retry after fsck
+                LINFO << " [DEBUG] calling check_fs via mount_with_alternatives";
                 check_fs(fstab[i].blk_device, fstab[i].fs_type, fstab[i].mount_point, &fs_stat);
             }
         }
@@ -1995,6 +1997,7 @@ static int fs_mgr_do_mount_helper(Fstab* fstab, const std::string& n_name,
                 mount_errors++;
                 fs_stat |= FS_STAT_FULL_MOUNT_FAILED;
                 // try again after fsck
+                LINFO << " [DEBUG] calling check_fs via fs_mgr_do_mount_helper";
                 check_fs(n_blk_device, fstab_entry.fs_type, mount_point, &fs_stat);
             }
         }
