@@ -738,8 +738,7 @@ static int prepare_fs_for_mount(const std::string& blk_device, const FstabEntry&
         }
     }
 
-    if (entry.fs_mgr_flags.check ||
-        (fs_stat & (FS_STAT_UNCLEAN_SHUTDOWN | FS_STAT_QUOTA_ENABLED))) {
+    if ((fs_stat & (FS_STAT_UNCLEAN_SHUTDOWN | FS_STAT_QUOTA_ENABLED))) {
         LINFO << " [DEBUG] calling check_fs via prepare_fs_for_mount";
         check_fs(blk_device, entry.fs_type, mount_point, &fs_stat);
     }
